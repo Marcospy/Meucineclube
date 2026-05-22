@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
-import { FavoritosProvider } from './contexts/FavoritosContext'; // <-- Importe o novo Provider
+import { FavoritosProvider } from './contexts/FavoritosContext';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -14,15 +14,35 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <FavoritosProvider> {/* <-- Envolva a aplicação com o Provedor de Favoritos */}
+        <FavoritosProvider>
           <BrowserRouter>
             <Header />
             <Routes>
+              {/* 1. Página de Login continua pública */}
               <Route path="/login" element={<Login />} />
 
-              <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-              <Route path="/favoritos" element={<ProtectedRoute><Favoritos /></ProtectedRoute>} />
-              <Route path="/filme/:id" element={<ProtectedRoute><DetalhesFilme /></ProtectedRoute>} />
+              {/* 2. MODIFICAÇÃO AQUI: A Home agora é pública! Tiramos o ProtectedRoute daqui */}
+              <Route path="/" element={<Home />} />
+
+              {/* 3. Os Favoritos continuam privados (só logado acessa) */}
+              <Route 
+                path="/favoritos" 
+                element={
+                  <ProtectedRoute>
+                    <Favoritos />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* 4. Os Detalhes do Filme continuam privados (só logado acessa) */}
+              <Route 
+                path="/filme/:id" 
+                element={
+                  <ProtectedRoute>
+                    <DetalhesFilme />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </BrowserRouter>
         </FavoritosProvider>
