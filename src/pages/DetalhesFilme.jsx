@@ -1,20 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FILMES_MOCK } from '../services/filmesMock';
+import { FavoritosContext } from '../contexts/FavoritosContext'; // <-- Importamos o contexto
 
 function DetalhesFilme() {
   const { id } = useParams();
   const [filme, setFilme] = useState(null);
 
+  // Consumimos a lista e as funções de favoritos
+  const { favoritos, adicionarFavorito, removerFavorito } = useContext(FavoritosContext);
+
   useEffect(() => {
     const filmeEncontrado = FILMES_MOCK.find((f) => f.id === id);
-    // CORREÇÃO AQUI: tirar o "s" do final para chamar a função correta
-    setFilme(filmeEncontrado); 
+    setFilme(filmeEncontrado);
   }, [id]);
 
   if (!filme) {
     return <p style={{ padding: '20px' }}>Filme não encontrado!</p>;
   }
+
+  // Verifica se o filme atual já está na lista de favoritos
+  const estaFavoritado = favoritos.some((f) => f.id === filme.id);
+
+  const handleFavoritoClick = () => {
+    if (estaFavoritado) {
+      removerFavorito(filme.id);
+    } else {
+      adicionarFavorito(filme);
+    }
+  };
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
@@ -33,11 +47,13 @@ function DetalhesFilme() {
           <p><strong>Diretor:</strong> {filme.diretor}</p>
           <p style={{ marginTop: '15px', lineHeight: '1.6' }}><strong>Sinopse:</strong> {filme.sinopse}</p>
           
+          {/* Botão dinâmico: muda de estilo e ação dependendo se está favoritado */}
           <button 
+            onClick={handleFavoritoClick}
             style={{ 
               marginTop: '20px', 
               padding: '10px 15px', 
-              background: '#28a745', 
+              background: estaFavoritado ? '#dc3545' : '#28a745', 
               color: '#fff', 
               border: 'none', 
               borderRadius: '4px', 
@@ -45,7 +61,7 @@ function DetalhesFilme() {
               fontSize: '16px'
             }}
           >
-            ❤️ Adicionar aos Favoritos
+            {estaFavoritado ? '💔 Remover dos Favoritos' : '❤️ Adicionar aos Favoritos'}
           </button>
         </div>
       </div>
