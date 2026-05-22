@@ -1,16 +1,30 @@
-# React + Vite
+# 🎬 MeuCineClube
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web real e simples desenvolvida em React para o catálogo e gestão de filmes favoritos. O projeto foi construído de forma incremental como atividade prática da disciplina de Desenvolvimento de Software para Web.
 
-Currently, two official plugins are available:
+## 🚀 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Autenticação Simulada:** Área de Login persistida no `localStorage` com controle de acesso (bloqueio de rotas públicas/privadas).
+- **Catálogo de Filmes:** Listagem dinâmica na página inicial a partir de um serviço de dados simulado (Mock).
+- **Página de Detalhes:** Rota dinâmica (`/filme/:id`) que captura parâmetros da URL para exibir informações específicas de cada obra.
+- **Gestão de Favoritos:** Contexto global para adicionar e remover filmes do clube de favoritos, com persistência de dados.
+- **Modo Claro/Escuro:** Alternador de temas integrado na interface e aplicado globalmente.
 
-## React Compiler
+## 🛠️ Tecnologias Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React** (Componentes Funcionais e Hooks)
+- **Vite** (Build tool rápido para ambiente de desenvolvimento)
+- **React Router Dom** (Gerenciamento de rotas e navegação SPA)
+- **Context API** (Gerenciamento de estados globais para Tema, Autenticação e Favoritos)
 
-## Expanding the ESLint configuration
+## 📁 Estrutura de Pastas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── components/  # Componentes reutilizáveis (Header, etc.)
+├── contexts/    # Contextos globais (Auth, Theme, Favoritos)
+├── pages/       # Páginas da aplicação (Home, Login, Favoritos, Detalhes)
+├── routes/      # Componentes de rotas e proteção (ProtectedRoute)
+├── services/    # Serviços e mocks de dados de filmes
+├── App.jsx      # Componente centralizador e mapeamento de rotas
+└── main.jsx     # Ponto de entrada da aplicação
