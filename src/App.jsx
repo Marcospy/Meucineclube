@@ -6,7 +6,8 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Favoritos from './pages/Favoritos';
-import ProtectedRoute from './routes/ProtectedRoute'; // <-- Importamos a rota protegida
+import DetalhesFilme from './pages/DetalhesFilme'; // <-- 1. Importe a nova página
+import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
   return (
@@ -15,25 +16,17 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            {/* A página de Login é pública, qualquer um pode ver */}
             <Route path="/login" element={<Login />} />
 
-            {/* Protegemos a Home: ela só abre se passar pela checagem da ProtectedRoute */}
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/favoritos" element={<ProtectedRoute><Favoritos /></ProtectedRoute>} />
+            
+            {/* 2. Adicione a rota dinâmica protegida aqui embaixo */}
             <Route 
-              path="/" 
+              path="/filme/:id" 
               element={
                 <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } 
-            />
-
-            {/* Protegemos os Favoritos da mesma forma */}
-            <Route 
-              path="/favoritos" 
-              element={
-                <ProtectedRoute>
-                  <Favoritos />
+                  <DetalhesFilme />
                 </ProtectedRoute>
               } 
             />
